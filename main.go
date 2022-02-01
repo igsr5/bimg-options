@@ -7,27 +7,29 @@ import (
 	"github.com/h2non/bimg"
 )
 
+var srcPngLocation = "img/src.png"
+
 func main() {
-	buffer, err := bimg.Read("img/src.png")
+	buffer, err := bimg.Read("img/src_origin.png")
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 	}
 
 	src := bimg.NewImage(buffer)
 
-	resize(src)
+	resize(src, 3000, 2000)
 }
 
-func resize(src *bimg.Image) {
-	buf, err := src.Resize(800, 600)
+func resize(src *bimg.Image, w int, h int) {
+	buf, err := src.Resize(w, h)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 	}
 
 	size, err := src.Size()
-	if size.Width != 800 && size.Height != 600 {
+	if size.Width != w && size.Height != h {
 		fmt.Println("The image size is invalid")
 	}
 
-	bimg.Write("src.png", buf)
+	bimg.Write(srcPngLocation, buf)
 }
