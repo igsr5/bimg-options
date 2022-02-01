@@ -17,18 +17,30 @@ func main() {
 
 	src := bimg.NewImage(buffer)
 
-	resize(src, 3000, 1000)
+	extract(src, 0, 0, 3000, 2000)
 }
 
+// --------------------
+// Resize
+// options: [width, heigth]
+// --------------------
 func resize(src *bimg.Image, w int, h int) {
 	buf, err := src.Resize(w, h)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 	}
 
-	size, err := src.Size()
-	if size.Width != w && size.Height != h {
-		fmt.Println("The image size is invalid")
+	bimg.Write(srcPngLocation, buf)
+}
+
+// --------------------
+// Extract
+// options: [top, left, width, heigth]
+// --------------------
+func extract(src *bimg.Image, top int, left int, w int, h int) {
+	buf, err := src.Extract(top, left, w, h)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
 	}
 
 	bimg.Write(srcPngLocation, buf)
