@@ -17,7 +17,7 @@ func main() {
 
 	src := bimg.NewImage(buffer)
 
-	resize(src, 3000, 2000)
+	resize(src, 3000, 1000)
 }
 
 func resize(src *bimg.Image, w int, h int) {
