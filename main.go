@@ -17,7 +17,7 @@ func main() {
 
 	src := bimg.NewImage(buffer)
 
-	extract(src, 0, 0, 3000, 2000)
+	forceResize(src, 3000, 1000)
 }
 
 // --------------------
@@ -26,6 +26,19 @@ func main() {
 // --------------------
 func resize(src *bimg.Image, w int, h int) {
 	buf, err := src.Resize(w, h)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+	}
+
+	bimg.Write(srcPngLocation, buf)
+}
+
+// --------------------
+// forceResize
+// options: [width, heigth]
+// --------------------
+func forceResize(src *bimg.Image, w int, h int) {
+	buf, err := src.Process(bimg.Options{Width: w, Height: h, Force: false})
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 	}
@@ -45,3 +58,8 @@ func extract(src *bimg.Image, top int, left int, w int, h int) {
 
 	bimg.Write(srcPngLocation, buf)
 }
+
+// --------------------
+// Crop
+// options: [top, left, width, heigth]
+// --------------------
