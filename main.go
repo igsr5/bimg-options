@@ -51,7 +51,12 @@ func forceResize(src *bimg.Image, w int, h int) {
 // options: [width, heigth]
 // --------------------
 func enlarge(src *bimg.Image, w int, h int) {
-	buf, err := src.Enlarge(w, h)
+	buf, err := src.Process(bimg.Options{
+		Width:   w,
+		Height:  h,
+		Enlarge: true,
+		Crop:    true,
+	})
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 	}
