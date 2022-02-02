@@ -17,7 +17,7 @@ func main() {
 
 	src := bimg.NewImage(buffer)
 
-	forceResize(src, 3000, 1000)
+	enlarge(src, 3000, 1000)
 }
 
 // --------------------
@@ -38,7 +38,20 @@ func resize(src *bimg.Image, w int, h int) {
 // options: [width, heigth]
 // --------------------
 func forceResize(src *bimg.Image, w int, h int) {
-	buf, err := src.Process(bimg.Options{Width: w, Height: h, Force: false})
+	buf, err := src.ForceResize(w, h)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+	}
+
+	bimg.Write(srcPngLocation, buf)
+}
+
+// --------------------
+// Enlarge
+// options: [width, heigth]
+// --------------------
+func enlarge(src *bimg.Image, w int, h int) {
+	buf, err := src.Enlarge(w, h)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 	}
