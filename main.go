@@ -7,7 +7,7 @@ import (
 	"github.com/h2non/bimg"
 )
 
-var srcPngLocation = "img/src.png"
+var srcPngLocation = "img/src_1.png"
 
 func main() {
 	buffer, err := bimg.Read("img/src_origin.png")
@@ -17,7 +17,7 @@ func main() {
 
 	src := bimg.NewImage(buffer)
 
-	enlarge(src, 3000, 1000)
+	enlarge(src, 800, 300)
 }
 
 // --------------------
