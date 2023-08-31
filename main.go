@@ -7,27 +7,77 @@ import (
 	"github.com/h2non/bimg"
 )
 
+var srcPngLocation = "img/src_1.png"
+
 func main() {
-	buffer, err := bimg.Read("img/src.png")
+	buffer, err := bimg.Read("img/src_origin.png")
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 	}
 
 	src := bimg.NewImage(buffer)
 
-	resize(src)
+	enlarge(src, 800, 300)
 }
 
-func resize(src *bimg.Image) {
-	buf, err := src.Resize(800, 600)
+// --------------------
+// Resize
+// options: [width, heigth]
+// --------------------
+func resize(src *bimg.Image, w int, h int) {
+	buf, err := src.Resize(w, h)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 	}
 
-	size, err := src.Size()
-	if size.Width != 800 && size.Height != 600 {
-		fmt.Println("The image size is invalid")
+	bimg.Write(srcPngLocation, buf)
+}
+
+// --------------------
+// forceResize
+// options: [width, heigth]
+// --------------------
+func forceResize(src *bimg.Image, w int, h int) {
+	buf, err := src.ForceResize(w, h)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
 	}
 
-	bimg.Write("src.png", buf)
+	bimg.Write(srcPngLocation, buf)
 }
+
+// --------------------
+// Enlarge
+// options: [width, heigth]
+// --------------------
+func enlarge(src *bimg.Image, w int, h int) {
+	buf, err := src.Process(bimg.Options{
+		Width:   w,
+		Height:  h,
+		Enlarge: true,
+		Crop:    true,
+	})
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+	}
+
+	bimg.Write(srcPngLocation, buf)
+}
+
+// --------------------
+// Extract
+// options: [top, left, width, heigth]
+// --------------------
+func extract(src *bimg.Image, top int, left int, w int, h int) {
+	buf, err := src.Extract(top, left, w, h)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+	}
+
+	bimg.Write(srcPngLocation, buf)
+}
+
+// --------------------
+// Crop
+// options: [top, left, width, heigth]
+// --------------------
